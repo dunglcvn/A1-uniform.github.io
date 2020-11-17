@@ -1,0 +1,116 @@
+<?php
+    define("db_server","localhost");
+    define("db_category","root");
+    define("db_pass","");
+    define("db_name","eproject1");
+
+function db_connect(){
+    $connection = mysqli_connect(db_server,db_category,db_pass,db_name);
+    return $connection;
+}
+$db = db_connect();
+
+function db_disconnect($connection){
+    if(isset($connection)){
+        mysqli_close($connection);
+        exit;
+    }
+}
+
+function checkResult($result){
+    global $db;
+    if($result){
+        return true;
+    }else{
+        echo mysqli_error($db);
+        exit;
+
+    }
+}
+function selectAll(){
+    global $db;
+    $sql = "SELECT * FROM `Category`";
+    $result = mysqli_query($db,$sql);
+    return $result;
+}    
+
+function insert_into($category){    
+    global $db;
+ 
+
+    $sql = 'INSERT INTO `Category`';
+    $sql .= '(Type) ';
+    $sql .= 'VALUES (';
+    $sql .= "'" . $category['Type'] . "'";
+    $sql .= ')';
+
+    
+    
+    $result = mysqli_query($db, $sql);
+    
+    return checkResult($result);
+
+
+
+}
+function find_category_by_id($id){
+    global $db;
+
+    $sql = "SELECT * FROM `Category`";
+    $sql .= "WHERE CatID ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    checkResult($result);
+    $category = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $category;
+
+}
+function update_category($category){
+    global $db;
+  
+    
+    $sql = "UPDATE `Category` SET";
+    $sql .= "`Type`='" . $category['Type'] . "'";
+    $sql .= " WHERE CatID ='" . $category['CatID'] . "'";
+    $sql .= " LIMIT 1";
+
+  
+    $result = mysqli_query($db,$sql);
+    return checkResult($result);
+
+}
+
+function delete_category($id){
+    global $db;
+
+    $sql = 'DELETE FROM `Category`';
+    $sql .= "Where CatID= '" . $id . "'";
+    $sql .= 'LIMIT 1';
+   
+    $result = mysqli_query($db,$sql);
+    return checkResult($result);
+}
+
+function check_type_cat($type) {
+    global $db;
+
+    $sql = "SELECT * FROM `Category` WHERE `Type`='" . $type . "' LIMIT 1";
+
+    $result = mysqli_query($db, $sql);
+
+    if (mysqli_fetch_array($result)) {
+        return true; // ton tai type
+    } else {
+        return false;
+    }
+}
+    
+     
+
+   
+
+   
+    
+
+?>

@@ -1,0 +1,216 @@
+<?php 
+ 
+    define("db_server","localhost");
+    define("db_user","root");
+    define("db_pass","");
+    define("db_name","eproject1");
+
+function db_connect(){
+    $connection = mysqli_connect(db_server,db_user,db_pass,db_name);
+    return $connection;
+}
+$db = db_connect();
+
+function db_disconnect($connection){
+    if(isset($connection)){
+        mysqli_close($connection);
+        exit;
+    }
+}
+
+function checkResult($result){
+    global $db;
+    if($result){
+        return true;
+    }else{
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+    }
+}
+
+function selectAll(){
+    global $db;
+    $sql = "SELECT * FROM product ORDER BY ProductID ASC";
+   
+    $result = mysqli_query($db,$sql);
+    return $result;
+}    
+
+function insert_into($product){    
+    global $db;
+   
+    $product['name'] = mysqli_real_escape_string($db, $product['name']);
+    $product['color'] = mysqli_real_escape_string($db, $product['color']);
+    $product['size'] = mysqli_real_escape_string($db, $product['size']);
+    $product['price'] = mysqli_real_escape_string($db, $product['price']);
+    $product['type'] = mysqli_real_escape_string($db, $product['type']);
+    $product['image'] = mysqli_real_escape_string($db, $product['image']);
+    $product['productdes'] = mysqli_real_escape_string($db, $product['productdes']);
+
+    $sql = 'INSERT INTO `product`';
+    $sql .= '(Name,Color,Size,Price,Type,Image,ProductDescription) ';
+    $sql .= 'VALUES (';
+    $sql .= "'" . $product['name'] . "',";
+    $sql .= "'" . $product['color'] . "',";
+    $sql .= "'" . $product['size'] . "',";
+    $sql .= "'" . $product['price'] . "',";
+    $sql .= "'" . $product['type']  . "',";
+    $sql .= "'" . $product['image']  . "',";
+    $sql .= "'" . $product['productdes'] . "'";
+    $sql .= ')';
+
+    
+    
+    $result = mysqli_query($db, $sql);
+    
+    return checkResult($result);
+
+
+
+}
+function find_product_by_id($id){
+    global $db;
+
+    $sql = "SELECT * FROM `product`";
+    $sql .= "WHERE ProductID ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    checkResult($result);
+    $product = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $product;
+
+}
+function update_product($product){
+    global $db;
+ 
+    $product['name'] = mysqli_real_escape_string($db, $product['name']);
+    $product['color'] = mysqli_real_escape_string($db, $product['color']);
+    $product['size'] = mysqli_real_escape_string($db, $product['size']);
+    $product['price'] = mysqli_real_escape_string($db, $product['price']);
+    $product['type'] = mysqli_real_escape_string($db, $product['type']);
+    $product['image'] = mysqli_real_escape_string($db, $product['image']);
+    $product['productdes'] = mysqli_real_escape_string($db, $product['productdes']);
+
+    $sql = "UPDATE `product` SET";
+    $sql .= "`Name`='" . $product['name'] . "',";
+    $sql .= " Color ='" . $product['color'] . "',";
+    $sql .= "Size ='" . $product['size'] . "',";
+    $sql .= "Price ='" . $product['price'] . "',";
+    $sql .= "Type ='" . $product['type'] . "',";
+    $sql .= "ProductDescription ='" . $product['productdes'] . "'";
+    $sql .= " WHERE ProductID ='" . $product['id'] . "'";
+    $sql .= " LIMIT 1";
+  
+    $result = mysqli_query($db,$sql);
+    return checkResult($result);
+
+
+}
+function delete_product($id){
+    global $db;
+
+    $sql = 'DELETE FROM `product`';
+    $sql .= "Where ProductID= '" . $id . "'";
+    $sql .= 'LIMIT 1';
+   
+    $sql1 = "DELETE FROM `product_img` WHERE `ProductID`= '" . $id . "'";
+    $result = mysqli_query($db, $sql1);
+    if (checkResult($result)) {
+        $result1 = mysqli_query($db,$sql);
+        return checkResult($result1);
+    }
+}
+
+
+function select_size(){
+    global $db;
+    
+    $sql = "SELECT `size` FROM product_size";
+    $result = mysqli_query($db,$sql);
+  
+    return $result;
+}
+
+function select_type(){
+    global $db;
+    $sql = "SELECT `Type` FROM category";
+   
+    $result = mysqli_query($db,$sql);
+    return $result;
+
+}
+       
+function insert_product_img($img) {
+    global $db;
+
+    $sql = "INSERT INTO `product_img` (img_link, ProductID) ";
+    $sql .= "VALUES (";
+    $sql .= "'" . $img['img_link'] . "',";
+    $sql .= "'" . $img['ProductID'] . "')";
+    
+    $result = mysqli_query($db, $sql);
+
+    return checkResult($result);
+}
+     
+function select_product_img($ProductID) {
+    global $db;
+
+    $sql = "SELECT * FROM `product_img` WHERE `ProductID` ='" . $ProductID . "'";
+
+    $result = mysqli_query($db, $sql);
+    return $result;
+}
+
+function find_product_img_by_id($id) {
+    global $db;
+
+    $sql = "SELECT * FROM `product_img` WHERE `imgID` ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    checkResult($result);
+    $img = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $img;
+}
+
+function check_product_img_by_productID($id) {
+    global $db;
+
+    $sql = "SELECT * FROM `product_img` WHERE `ProductID` ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    if (mysqli_fetch_array($result)) {
+        return true; // ton tai
+    } else {
+        return false;
+    }
+}  
+    
+function update_product_img($img) {
+    global $db;
+
+    $sql = "UPDATE `product_img` SET ";
+    $sql .= "`img_link` ='" . $img['img_link'] . "'";
+    $sql .= "WHERE `imgID` ='" . $img['imgID'] . "'";
+    $sql .= " LIMIT 1";
+
+    $result = mysqli_query($db, $sql);
+    return checkResult($result);
+}
+
+function delete_product_img($id) {
+    global $db;
+
+    $sql = "DELETE FROM `product_img` WHERE `imgID` ='" . $id . "' LIMIT 1";
+    $result = mysqli_query($db, $sql);
+
+    return checkResult($result);
+}
+?>
+
+
+
+

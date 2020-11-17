@@ -1,0 +1,79 @@
+<?php 
+require_once("lib/database_admin.php");
+require_once("lib/function.php");
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index Admin</title>
+    <style>
+        body {
+            margin-top: 2cm;
+            background-color: rgb(227, 227, 253);
+        }
+        table {
+            border-collapse: collapse;
+        }
+        tr,th,td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        a:hover {
+            color: red;
+        }
+        a {
+            text-align: center;
+            font-size: 150%;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h2>ADMIN INDEX</h2>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        <?php 
+            $adminSet = select_all_admin();
+            $count = mysqli_num_rows($adminSet);
+            for($i = 0; $i < $count; $i++) :
+                $admin = mysqli_fetch_assoc($adminSet);
+        ?>
+
+        <tr>
+            <td><?php echo $admin['Username'] ?></td>
+            <td><?php echo $admin['Email'] ?> </td>
+            <td><?php echo $admin['Phone Number'] ?></td>
+            <td><a href="<?php echo "edit_email_phone_admin.php?AdminID= " . $admin['AdminID']; ?>">Edit information</a></td>
+            <td><a href="<?php echo "edit_password_admin.php?AdminID= ". $admin['AdminID']; ?>">Change Password</a></td>
+            <td><a href="<?php echo "delete_admin.php?AdminID= " . $admin['AdminID']; ?>">Delete Account</a></td>
+        </tr>
+
+        <?php 
+            endfor;
+            mysqli_free_result($adminSet);
+        ?>
+    </table>
+    <br><br>
+    <a href="create_admin.php">< Go To Add New Admin</a>
+    </center>
+</body>
+</html>
+
+<?php 
+db_disconnect($db);
+
+?>

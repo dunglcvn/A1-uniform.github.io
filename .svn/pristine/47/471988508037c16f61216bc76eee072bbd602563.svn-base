@@ -1,0 +1,69 @@
+<?php 
+    require_once('lib/database_admin.php');
+    require_once('lib/function.php');
+    
+    if(!isset($_SESSION['admin_name'])){
+        redirect_to("./login.php");
+    }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    delete_admin($_POST['AdminID']);
+    redirect_to('index_admin.php');
+} else {
+    if (!isset($_GET['AdminID'])) {
+        redirect_to('index_admin.php');
+    };
+
+    $admin = find_admin_by_id($_GET['AdminID']);
+};
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Subject</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../style/login.css">
+</head>
+<body class="bg_login">
+    <div class="container-fluid">
+    <div class="col-md-8">
+                <h2 class="text-info">DELETE ACCOUNT</h2>
+            </div>
+            <div class="col-md-4">
+                <?php if(isset($_SESSION['admin_name'])): ?>
+                    <div class="text-info">
+                    <p >Hello: <?php echo $_SESSION['admin_name']; ?></p>
+                <?php endif; ?>
+                  </div>
+            </div>
+
+
+    <h2 class="text-danger">Are you sure you want to delete this account?</h2>
+    <p><span>Username: </span><?php echo $admin['Username']; ?></p>
+    <p><span>Email: </span><?php echo $admin['Email']; ?></p>
+    <p><span>Phone Number: </span><?php echo $admin['Phone Number']; ?></p>
+    
+   
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method='POST'>
+        <input type="hidden" name='AdminID' value='<?php echo $admin['AdminID']; ?>'>
+
+        <input type="submit" value="Delete Account" id="submit">
+    </form>
+    
+    <br><br>
+   <a href="index_admin.php">Back To Index</a> 
+   </div> 
+</body>
+</html>
+
+
+<?php db_disconnect($db); ?>

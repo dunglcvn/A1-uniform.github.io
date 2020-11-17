@@ -1,0 +1,136 @@
+<?php 
+ 
+    define("db_server","localhost");
+    define("db_user","root");
+    define("db_pass","");
+    define("db_name","eproject1");
+
+function db_connect(){
+    $connection = mysqli_connect(db_server,db_user,db_pass,db_name);
+    return $connection;
+}
+$db = db_connect();
+
+function db_disconnect($connection){
+    if(isset($connection)){
+        mysqli_close($connection);
+        exit;
+    }
+}
+
+function checkResult($result){
+    global $db;
+    if($result){
+        return true;
+    }else{
+        echo mysqli_error($db);
+        exit;
+
+    }
+}
+function selectAll(){
+    global $db;
+    $sql = "SELECT * FROM product ORDER BY ProductID ASC";
+   
+    $result = mysqli_query($db,$sql);
+    return $result;
+}    
+
+function insert_into($product){    
+    global $db;
+   
+
+    $sql = 'INSERT INTO `product`';
+    $sql .= '(Name,Color,Size,Price,Type,Image) ';
+    $sql .= 'VALUES (';
+    $sql .= "'" . $product['name'] . "',";
+    $sql .= "'" . $product['color'] . "',";
+    $sql .= "'" . $product['size'] . "',";
+    $sql .= "'" . $product['price'] . "',";
+    $sql .= "'" . $product['type']  . "',";
+    $sql .= "'" . $product['image']  . "'";
+    $sql .= ')';
+
+    
+    
+    $result = mysqli_query($db, $sql);
+    
+    return checkResult($result);
+
+
+
+}
+function find_product_by_id($id){
+    global $db;
+
+    $sql = "SELECT * FROM `product`";
+    $sql .= "WHERE ProductID ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    checkResult($result);
+    $product = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $product;
+
+}
+function update_product($product){
+    global $db;
+ 
+    
+    $sql = "UPDATE `product` SET";
+    $sql .= "`Name`='" . $product['name'] . "',";
+    $sql .= " Color ='" . $product['color'] . "',";
+    $sql .= "Size ='" . $product['size'] . "',";
+    $sql .= "Price ='" . $product['price'] . "',";
+    $sql .= "Type ='" . $product['type'] . "'";
+    $sql .= " WHERE ProductID ='" . $product['id'] . "'";
+    $sql .= " LIMIT 1";
+  
+    $result = mysqli_query($db,$sql);
+    return checkResult($result);
+
+
+}
+function delete_product($id){
+    global $db;
+
+    $sql = 'DELETE FROM `product`';
+    $sql .= "Where ProductID= '" . $id . "'";
+    $sql .= 'LIMIT 1';
+   
+    $result = mysqli_query($db,$sql);
+    return checkResult($result);
+}
+
+
+function select_size(){
+    global $db;
+    
+    $sql = "SELECT `size` FROM product_size";
+    $result = mysqli_query($db,$sql);
+  
+    return $result;
+}
+
+function select_type(){
+    global $db;
+    $sql = "SELECT `type` FROM category";
+   
+    $result = mysqli_query($db,$sql);
+    return $result;
+
+}
+       
+    
+     
+
+   
+
+   
+    
+
+?>
+
+
+
+

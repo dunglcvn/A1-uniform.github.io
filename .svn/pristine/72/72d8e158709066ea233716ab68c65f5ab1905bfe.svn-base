@@ -1,0 +1,7 @@
+let input = document.getElementById("input");
+
+input.setAttribute("border","1px solid red");
+
+function checkStrengPwd() {
+    if ()
+}

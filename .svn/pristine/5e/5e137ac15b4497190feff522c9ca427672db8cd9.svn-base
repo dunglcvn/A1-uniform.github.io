@@ -1,0 +1,74 @@
+<?php
+require_once("lib/database_admin.php");
+require_once("lib/function.php");
+
+if (!isset($_SESSION['admin_name'])) {
+    redirect_to("login.php");
+}
+
+?>
+  
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Site</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/admin_css.css">
+        <link href="../../style/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <?php require_once("../layout_admin/header.php"); ?>
+    <div class="container-fluid">
+        <br><br>
+        <center><h2 class="text">ADMIN SITE</h2></center>
+        <br>
+        <table class="table table-striped responsive">
+            <a href="create_admin.php"><div class="btn btn-success"><i class="fas fa-user-plus"></i></div></a>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Edit</th>
+                <th>Delete</>
+            </tr>
+
+            <?php
+            $adminSet = select_all_admin();
+            $count = mysqli_num_rows($adminSet);
+            for ($i = 0; $i < $count; $i++) :
+                $admin = mysqli_fetch_assoc($adminSet);
+            ?>
+
+                <tr>
+                    <td><?php echo $admin['AdminID'] ?></td>
+                    <td><?php echo $admin['Username'] ?></td>
+                    <td><?php echo $admin['Email'] ?> </td>
+                    <td><?php echo $admin['Phone Number'] ?></td>
+                    <td><a href="<?php echo "edit_infor_admin.php?AdminID=".$admin['AdminID']; ?>"><div class="btn btn-primary"><i class="fas fa-user-edit"></i></div></a></td>
+                    <td><a href="<?php echo "delete_admin.php?AdminID=".$admin['AdminID']; ?>"><div class="btn btn-danger"><i class="fas fa-user-minus"></i></div></a></td>
+                </tr>
+
+            <?php
+            endfor;
+            mysqli_free_result($adminSet);
+            ?>
+        </table>
+    </div>
+    <br><br><br><br><br>
+</body>
+</html> 
+<?php db_disconnect($db); ?>

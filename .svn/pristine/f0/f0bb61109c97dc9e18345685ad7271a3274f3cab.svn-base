@@ -1,0 +1,35 @@
+$("document").ready(function () {
+
+    if ($("#quantity").val() == 1) {
+        $("#sub").attr("disabled", "disabled");
+    }
+
+    $("#sub").click(function () {
+        let sub = $("#quantity").val();
+
+        $("#quantity").val(--sub);
+
+        if (sub == 1) {
+            $("#sub").attr("disabled", "disabled");
+        }
+    })
+
+    $("#add").click(function () {
+        let add = $("#quantity").val();
+
+        $("#quantity").val(++add);
+
+        if (add != 1) {
+            $("#sub").removeAttr("disabled");
+        }
+    })
+
+    var img = $(".img");
+    var imgPrimary = $("#imgPrimary");
+    img.each(function(i) {
+        img.eq(i).click(function() {
+            imgPrimary.attr("src", img.eq(i).attr("src"));
+        })
+    })
+
+})

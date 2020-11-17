@@ -1,0 +1,26 @@
+USE eproject1;
+
+
+CREATE TABLE catalog(
+	catalog_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+	`type` VARCHAR(50) NOT NULL 
+);
+CREATE TABLE product(
+	id INT AUTO_INCREMENT NOT NULL PRIMARY KEY ,
+	catalog_id INT NOT NULL,
+	`name` VARCHAR(50) NOT NULL,
+	color VARCHAR(50) NOT NULL,
+	size VARCHAR(50) NOT NULL ,
+	price VARCHAR(50) NOT NULL,
+	`type` VARCHAR(50) NOT NULL,
+	img VARCHAR(500) NOT NULL,
+	 FOREIGN KEY (catalog_id) REFERENCES catalog(catalog_id)  
+);
+
+INSERT INTO catalog VALUES(1,"Shirts")
+
+INSERT INTO product 
+VALUES (1,1,"( Gildan ) Men's G2000 Ultra Cotton Adult T-Shirt","Black","L","190","SHIRT",
+"images/Shirts/( Gildan ) Men's G2000 Ultra Cotton Adult T-Shirt/black.jpg"),
+(2,1,"( Gildan ) Men's G2000 Ultra Cotton Adult T-Shirt","Gold","L","190","SHIRT",
+"images/Shirts/( Gildan ) Men's G2000 Ultra Cotton Adult T-Shirt/Charcoal Heather.jpg");

@@ -1,0 +1,21 @@
+USE eproject1;
+
+
+CREATE TABLE catalog(
+	catalog_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+	`type` VARCHAR(50) NOT NULL 
+);
+CREATE TABLE product(
+	id INT AUTO_INCREMENT NOT NULL PRIMARY KEY ,
+	catalog_id INT NOT NULL,
+	`name` VARCHAR(50) NOT NULL,
+	color VARCHAR(50) NOT NULL,
+	size VARCHAR(50) NOT NULL ,
+	price VARCHAR(50) NOT NULL,
+	`type` VARCHAR(50) NOT NULL,
+	 FOREIGN KEY (catalog_id) REFERENCES catalog(catalog_id)  
+
+	
+);
+INSERT INTO catalog VALUES(1,"Shirts")
+INSERT INTO product  VALUES (1,1,"New Shirt", "red", "L", "200", "SHIRT")

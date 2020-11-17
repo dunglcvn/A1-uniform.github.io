@@ -1,0 +1,125 @@
+$("document").ready(function() {
+
+    $("#pwd").keyup(function() {
+
+        var capslock = event.getModifierState("CapsLock"); // capslock Detect
+
+        if (capslock) {
+            $("#pwd").tooltip();
+            $(".caps-lock-warning1").css("display","block");
+        } else {
+            $(".caps-lock-warning1").css("display","none");
+        }
+    })
+
+    $("#username").focusout(function() { // validate Username
+    
+        var username = $("#username").val();
+    
+        if (username.length == 0) {
+            $("#e1").css("display","contents");
+            $("#username").addClass("error");
+        } else {
+            $("#e1").css("display","none");
+            $("#username").removeClass("error");
+        }
+    })
+
+    $("#email").focusout(function() { // validate email
+
+        var email = $("#email").val();
+    
+        if (email.length == 0) {
+            $("#e3").css("display","contents");
+            $("#email").addClass("error");
+        } else {
+            $("#e3").css("display","none");
+            $("#email").removeClass("error");
+        }
+    })
+
+    $("#phone").focusout(function() { // validate phone number
+
+        var phone = $("#phone").val();
+    
+        if (phone.length == 0) {
+            $("#e4").css("display","contents");
+            $("#phone").addClass("error");
+        } else {
+            $("#e4").css("display","none");
+            $("#phone").removeClass("error");
+        }
+        
+        if (!$.isNumeric(phone) && phone.length != 0) {
+            $("#e5").css("display","contents");
+            $("#phone").addClass("error1");
+        } else {
+            $("#e5").css("display","none");
+            $("#phone").removeClass("error1");
+        }
+    })
+
+    $("#pwd").focusout(function() { // validate pwd
+    
+        var pwd = $("#pwd").val();
+    
+        if (pwd.length == 0) {
+            $("#e7").css("display","contents");
+            $("#pwd").addClass("error");
+        } else {
+            $("#e7").css("display","none");
+            $("#pwd").removeClass("error");
+        }
+    })
+
+    $("#form").submit(function() { // function(e)
+    
+        // var form = this;
+        // e.preventDefault();
+        var username = $("#username");
+        var pwd = $("#pwd");
+        var email = $("#email");
+        var phone = $("#phone");
+    
+        var passed = 0;
+    
+        if (username.val().length == 0 ) {
+            username.addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (pwd.val().length == 0) {
+            pwd.addClass("error");
+        } else {
+            passed++;
+        }
+
+        if (email.val().length == 0) {
+            email.addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (phone.val().length == 0) {
+            phone.addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (passed == 4) {
+            alert("REGISTRATION SUCCESSFULLY!");
+            return true;
+            // setTimeout(function () {
+            //     form.submit();
+            // }, 3000);    
+        } else {
+            $(".alert").css("display","block");
+            setTimeout(function() {
+                $(".alert").addClass("fade-out-top");
+            }, 2500);
+            $(".alert").removeClass("fade-out-top");
+            return false;
+        }
+    })
+})

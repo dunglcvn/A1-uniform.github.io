@@ -1,0 +1,180 @@
+<?php 
+require_once("lib/database_admin.php");
+require_once("lib/function.php");
+
+$errors = [];
+
+function isFormValidated() {
+    global $errors;
+
+    return count($errors) == 0;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    
+    if (empty($_POST['username'])) {
+        $errors[] = 'Username is required';
+    };
+
+    if (empty($_POST['password'])) {
+        $errors[] = 'Password is required';
+    };
+
+    if (empty($_POST['email'])) {
+        $errors[] = 'Email is required';
+    };
+
+    if (empty($_POST['phone'])) {
+        $errors[] = 'Phone Number is required';
+    };
+
+    if (!is_numeric($_POST['phone'])) {
+        $errors[] = "Phone Number must be number";
+    }
+    if (find_user_admin_by_username($_POST['username'])) {
+        $errors[] = "Username already exists";
+    }
+
+    
+
+    if (isFormValidated()) {
+        $admin = [];
+        $admin['username'] = $_POST['username'];
+        $admin['password'] = $_POST['password'];
+        $admin['email'] = $_POST['email'];
+        $admin['phone'] = $_POST['phone'];
+
+        insert_admin($admin);
+        $id = mysqli_insert_id($db);
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create New Admin</title>
+    <style>
+        body {
+            margin-top: 4cm;
+            background-color: rgb(227, 227, 253);
+            font-size: 120%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #reset,
+        #submit {
+            padding: 2px;
+            background-color: rgb(253, 253, 190);
+        }
+
+        #submit {
+            margin-left: 3cm;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .center {
+            margin-left: 13cm;
+        }
+
+        a:hover {
+            color: red;
+        }
+        
+        a {
+            text-align: center;
+            font-size: 150%;
+            text-decoration: none;
+        }
+    </style>
+</head>
+    <body>
+        <center>
+        <h2>Create New Admin</h2>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <table>
+                <tr>
+                    <td>
+                        <label for="username">Username</label>
+                    </td>
+                    <td>
+                        <input type="text" name="username" value="<?php echo isFormValidated()? '':$_POST['username'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">Password</label>
+                    </td>
+                    <td>
+                        <input type="password" name="password" value="<?php echo isFormValidated()? '':$_POST['password'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email</label>
+                    </td>
+                    <td>
+                        <input type="text" name="email" value="<?php echo isFormValidated()? '':$_POST['email'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="phone">Phone Number</label>
+                    </td>
+                    <td>
+                        <input type="text" name="phone" value="<?php echo isFormValidated()? '':$_POST['phone'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Submit">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <a href="index_admin.php">< Back To Index</a>
+        </center>
+        <br>
+        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isFormValidated()): ?>
+        <div class="error center" >
+            <span>Please fix the following error:</span>
+            <ul>
+                <?php  
+                foreach($errors as $value) {
+                    echo '<li>', $value , '</li>'; 
+                };
+            ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+        <div class="center">
+        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && isFormValidated()): ?>
+            <h2>A new Admin Account (ID: <?php echo $id; ?>) has been created!</h2>
+            <ul>
+                <?php  
+                    foreach($admin as $key => $value) {
+                        echo '<li>', $key . ": " . $value, '</li>';
+                    };
+                ?>
+            </ul>
+        <?php endif; ?>
+        </div>
+    <br>
+    </body>
+</html>
+
+<?php 
+db_disconnect($db);
+
+?>

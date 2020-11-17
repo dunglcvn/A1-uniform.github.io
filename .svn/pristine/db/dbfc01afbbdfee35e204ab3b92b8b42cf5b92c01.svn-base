@@ -1,0 +1,77 @@
+<?php
+    require_once("./lib/database_product.php");
+    require_once("./lib/functions.php");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .table {
+            
+        border-collapse: collapse;
+        vertical-align: top;
+        border: 1px solid red;
+        }
+        td,th{
+           
+            padding : 5px;
+        }
+
+    </style>
+    
+</head>
+<body>
+ 
+<a href="create_new_product.php">Create new</a>
+<br><br>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+
+<table class="table">
+<tr>
+
+            <th>ID</th>
+            <th>NAME</th>
+            <th>TYPE</th>
+            <th>COLOR</th>
+            <th>SIZE</th>
+            <th>PRICE</th>
+            <th>Product Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+</tr>
+<?php
+    $products = selectAll();
+    $count = mysqli_num_rows($products);
+    for($i = 0 ; $i< $count;$i++):
+    
+        $product = mysqli_fetch_assoc($products);
+    
+?>
+<tr>
+                                
+    <td><?php echo $product['ProductID'] ?></td>
+    <td><?php echo $product['Name'] ?></td>
+    <td><?php echo $product['Type'] ?></td>
+    <td><?php echo $product['Color'] ?></td>
+    <td><?php echo $product['Size'] ?></td>
+    <td><?php echo $product['Price'] ?></td>
+    <td><?php echo $product['ProductDescription']; ?></td>
+    <td><a href=" <?php echo "edit_product.php?ProductID=".$product['ProductID'] ?>">Edit</a> </td>
+    <td><a href=" <?php echo "delete_product.php?ProductID=".$product['ProductID'] ?>">Delete</a> </td>
+</tr>
+<?php 
+        endfor;
+        mysqli_free_result($products);
+        ?>
+</table>
+<br>   
+
+</form>
+ 
+</body>
+</html>
+
+<?php db_disconnect($db); ?>

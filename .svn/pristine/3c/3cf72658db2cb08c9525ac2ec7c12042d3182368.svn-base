@@ -1,0 +1,85 @@
+<?php
+    require_once("database_category.php");
+    require_once("functions_category.php");
+
+
+$errors = [];
+function isFromValidated(){
+    global $errors;
+    return count($errors) == 0;
+}
+function checkform(){
+    global $errors;
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+        if(empty($_POST['type'])){
+            $errors[] = "Type is required";
+        }
+        if(!is_string($_POST['type'])){
+            $errors[] = "Type  is not number in";
+        }
+    }
+}
+if($_SERVER['REQUEST_METHOD']=="POST"){
+    checkform();
+    if(isFromValidated()){
+        $category = [];
+        $category['CatID'] = $_POST['CatID'];
+        $category['type'] = $_POST['type'];
+        $result = update_category($category);
+        redirect_to('index_category.php');
+    }
+    }else{
+        if(!isset($_GET['CatID'])){
+            redirect_to("index_category.php");
+            exit;
+        }else{
+            $id = $_GET['CatID'];
+            $category = find_category_by_id($id);
+        }
+
+    }
+
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    
+
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <h2>Edit category</h2>
+    <table>
+        <tr>
+            <td><input type="hidden" name='CatID' value="<?php echo $category['CatID']  ?>"></td>
+            </tr>
+        <tr>
+            <td>Type</td>
+            <td><input type ="text" name="type" value="<?php echo isFromValidated()? $category['type'] : $_POST['type']?>"/></td>
+        </tr>
+       
+        <tr>
+            
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    
+    </table>
+    <?php if($_SERVER['REQUEST_METHOD']=="POST"&& !isFromValidated()) : ?>
+            <p>Please fix errors </p>
+            <?php   foreach($errors as $value){
+                    if(!empty($value)){
+                        echo "<li>",$value,"</li>";
+                    }
+            } 
+            ?>
+<?php endif; ?>
+    <a href="index_category.php">Go to index</a>
+    </form>
+</body>
+</html>

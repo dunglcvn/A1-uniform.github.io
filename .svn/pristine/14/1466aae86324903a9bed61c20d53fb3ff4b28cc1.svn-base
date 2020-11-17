@@ -1,0 +1,16 @@
+.text {
+    color: green;
+}
+
+a {
+    color: green;
+}
+
+a:hover {
+    color: orangered;
+    transition: .3s;
+}
+
+.btn {
+    width: 2cm !important; 
+}

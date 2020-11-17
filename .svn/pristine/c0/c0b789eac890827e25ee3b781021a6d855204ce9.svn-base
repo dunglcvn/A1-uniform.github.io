@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href="./style/style.css" rel="stylesheet">
+</head>
+<body>
+<footer>
+<div class="container-fluid padding">	
+        <div class="row text-center padding">
+            <div class="col-12">
+                <h2>Contact us</h2>
+            </div>
+            <div class="col-12 social padding">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>	
+    <div class="container-fluid padding">	
+		<div class="row text-center">
+			<div class="col-md-4">
+				<hr class="light">
+				<img src="./images/a1logo.png" height=50>
+				<hr class="light">
+				<p>111-222-3333</p>
+				<p>mymail@gmail.com</p>
+				<p>Le Thanh Nghi street, Hanoi, Vietnam</p>
+			</div>
+			<div class="col-md-4">				
+				<hr class="light">
+				<i class="far fa-clock"></i>
+				<h4>&nbsp;Working hours</h4>
+				<hr class="light">
+				<p>Monday-Friday: 8am - 5pm</p>
+                <p>Saturday: 8am - 12am</p>
+                <p>Sunday : Off</p>
+			</div>
+			<div class="col-md-4">				
+				<hr class="light">
+				<i class="fas fa-cog"></i>
+				<h4>&nbsp;Services</h4>
+				<hr class="light">
+				<p>Something</p>
+				<p>Sonething2</p>
+				<p>Something3</p>
+			</div>
+			<div class="col-12">
+				<hr class="light-100">
+				<h4>&copy; A1uniforms 2020</h4>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+</html>

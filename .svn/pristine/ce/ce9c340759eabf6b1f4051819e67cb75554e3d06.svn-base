@@ -1,0 +1,152 @@
+$("document").ready(function() {
+
+    $("#pname").focusout(function() {
+        
+        var pname = $("#pname").val();
+
+        if (pname.length == 0) {
+            $("#ep1").css("display","contents");
+            $("#pname").addClass("error");
+        } else {
+            $("#ep1").css("display","none");
+            $("#pname").removeClass("error");
+        }
+    })
+
+    $("#pcolor").focusout(function() {
+        
+        var pcolor = $("#pcolor").val();
+
+        if (pcolor.length == 0) {
+            $("#ep2").css("display","contents");
+            $("#pcolor").addClass("error");
+        } else {
+            $("#ep2").css("display","none");
+            $("#pcolor").removeClass("error");
+        }
+    })
+
+    $("#pprice").focusout(function() {
+        
+        var pprice = $("#pprice").val();
+
+        if (pprice.length == 0) {
+            $("#ep3").css("display","contents");
+            $("#pprice").addClass("error");
+        } else {
+            $("#ep3").css("display","none");
+            $("#pprice").removeClass("error");
+        }
+
+        if (!$.isNumeric(pprice) && pprice.length != 0) {
+            $("#ep4").css("display","contents");
+            $("#pprice").addClass("error1");
+        } else {
+            $("#ep4").css("display","none");
+            $("#pprice").removeClass("error1");
+        }
+    })
+
+    $("#pdes").focusout(function() {
+        
+        var pdes = $("#pdes").val();
+
+        if (pdes.length == 0) {
+            $("#ep5").css("display","contents");
+            $("#pdes").addClass("error");
+        } else {
+            $("#ep5").css("display","none");
+            $("#pdes").removeClass("error");
+        }
+    })
+
+    $("#psize").focusout(function() {
+
+        if ($("#psize option:selected").val() == "0") {
+            $("#ep6").css("display","contents");
+            $("#psize").addClass("error");
+        } else {
+            $("#ep6").css("display","none");
+            $("#psize").removeClass("error");
+        }
+    })
+
+    $("#ptype").focusout(function() {
+
+        if ($("#ptype option:selected").val() == "0") {
+            $("#ep7").css("display","contents");
+            $("#ptype").addClass("error");
+        } else {
+            $("#ep7").css("display","none");
+            $("#ptype").removeClass("error");
+        }
+    })
+
+    $("#form").submit(function() { // function(e)
+    
+        // var form = this;
+        // e.preventDefault();
+        var pname = $("#pname");
+        var pcolor = $("#pcolor");
+        var pprice = $("#pprice");
+        var pdes = $("#pdes");
+
+        var passed = 0;
+    
+        if (pname.val().length == 0 ) {
+            pname.addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (pcolor.val().length == 0) {
+            pcolor.addClass("error");
+        } else {
+            passed++;
+        }
+
+        if (pprice.val().length == 0) {
+            pprice.addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (!$.isNumeric(pprice.val()) && pprice.val().length != 0) {
+            pprice.addClass("error");
+        } else {
+            passed++;
+        }
+
+        if (pdes.val().length == 0) {
+            pdes.addClass("error");
+        } else {
+            passed++;
+        }
+
+        if ($("#psize option:selected").val() == "0") {
+            $("#psize").addClass("error");
+        } else {
+            passed++;
+        }
+
+        if ($("#ptype option:selected").val() == "0") {
+            $("#ptype").addClass("error");
+        } else {
+            passed++;
+        }
+    
+        if (passed == 7) {
+            return true;
+            // setTimeout(function () {
+            //     form.submit();
+            // }, 3000);    
+        } else {
+            $(".alert").css("display","block");
+            setTimeout(function() {
+                $(".alert").addClass("fade-out-top");
+            }, 2500);
+            $(".alert").removeClass("fade-out-top");
+            return false;
+        }
+    })
+})

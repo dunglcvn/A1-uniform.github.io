@@ -1,0 +1,115 @@
+<?php
+require_once("./lib/database_admin.php");
+require_once("./lib/function.php");
+
+$errors = [];
+function  isFormValidated()
+{
+    global $errors;
+    return count($errors) == 0;
+}
+
+
+function checkForm()
+{
+    global $errors;
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $admin_name = $_POST['user_name'];
+        $password = sha1($_POST['password']);
+
+        if (empty($_POST['user_name'])) {
+            $errors[] = "Username is required";
+        }
+
+        if (empty($_POST['password'])) {
+            $errors[] = "Password is required";
+        } 
+        
+        if (!check_admin($admin_name, $password)) {
+            $errors[] = "User doesn't exists";
+        }
+    }
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href="../../style/login.css" rel="stylesheet">
+</head>
+
+<body class="bg_login">
+    <?php checkForm(); ?>
+    <br>
+    <center><a href="../../index.php"><img src="../../images/a1logo.png" alt="" height="70"></a></center>
+    <hr>
+    <br>
+    <div class="container-fluid">
+        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+        <div class="loginForm">
+            <table align="center">
+                <tr>
+                    <td colspan="2">
+                    <h4>REGISTERED ADMIN</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <span>Welcome, Please sign in!</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input placeholder="Username" class="ip" type="text" name="user_name" value="<?php echo isFormValidated()?"" : $_POST['user_name'] ?>"></td>
+                </tr>
+                <tr>
+                    <td><input placeholder="Password" class="ip" type="password" name="password" value="<?php echo isFormValidated()?"" : $_POST['password'] ?>"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="submit" class="btnLogin" value="Sign In"></td>
+                </tr>
+            </table>
+            </div>
+        </form>
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isFormValidated()) {
+            // session
+            $username = $_POST['user_name'];
+            $_SESSION['admin_name'] = $username;
+            redirect_to("index_admin.php");
+        }
+        ?>
+    </div>
+    <br><br>
+    <a class="btnIndex" href="index_admin.php"><center>< BACK TO ADMIN SITE</center></a>
+    <hr>
+
+    <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && !isFormValidated()) : ?>
+        <div class="errors">
+        <h4>Please fix errors </h4>
+        <?php foreach ($errors as $value) {
+            if (!empty($value)) {
+                echo "<li>", $value, "</li>";
+            }
+        }
+        ?>
+        </div>
+            
+    <?php endif; ?>
+    <br><br>
+</body>
+
+</html>
+
+<?php db_disconnect($db); ?>

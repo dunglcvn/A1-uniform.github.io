@@ -1,0 +1,178 @@
+<?php
+require_once("lib/database_admin.php");
+require_once("lib/function.php");
+
+if(!isset($_SESSION['admin_name'])){
+    redirect_to("./login.php");
+}
+$errors = [];
+
+function isFormValidated(){
+
+    global $errors;
+    return count($errors) == 0;
+}
+function checkForm()
+{
+    global $errors;
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $id = $_POST['AdminID'];
+        $password = sha1($_POST['cuPwd']);
+
+       
+
+        if(empty($_POST['email'])) {
+            $errors[] = 'Email is required';
+        }
+        if(empty($_POST['phone'])) {
+            $errors[] = 'Phone Number is required';
+        }
+        if(!is_numeric($_POST['phone'])) {
+            $errors[] = "Phone Number must be number";
+        }if(empty($_POST['cuPwd'])) {
+            $errors[] = "Current Password is required";
+        }
+        elseif(!check_password_admin_by_username($id,$password)){
+            $errors[] ="Password is not correct" ;
+        }
+        
+       
+
+    }
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    checkForm();
+    if (isFormValidated()) {
+        $admin = [];
+        $admin['AdminID'] = $_POST['AdminID'];
+        $admin['Email'] = $_POST['email'];
+        $admin['phone'] = $_POST['phone'];
+        $result = update_admin($admin);
+        if($result){
+             redirect_to('index_admin.php');
+        }else{
+            echo "Failed";
+        }
+       
+    }
+} else {
+    if (!isset($_GET['AdminID'])) {
+        redirect_to("index_admin.php");
+        exit;
+    } else {
+        $id = $_GET['AdminID'];
+        $admin = find_admin_by_id($id);
+   
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Admin Account</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <style>
+        td {
+            padding: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+   
+    <div class="container-fluid">
+    <div class="row">
+            <div class="col-md-8">
+                <h2 class="text-info">CHANGE INFORMATION</h2>
+            </div>
+            <div class="col-md-4">
+                <?php if(isset($_SESSION['admin_name'])): ?>
+                    <div class="text-info">
+                    <p >Hello: <?php echo $_SESSION['admin_name']; ?></p>
+                <?php endif; ?>
+                  </div>
+            </div>
+    </div>        
+       
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+
+
+            <table>
+               <tr>
+                   <td><input type="hidden" name="AdminID" value="<?php echo isFormValidated() ? $admin['AdminID'] : $_POST['AdminID']  ?>"></td>
+               </tr>
+                <tr>
+                    <td>
+                        <label for="cuPwd">Current Password</label>
+                    </td>
+                    <td>
+                        <input type="password" name="cuPwd" value="<?php echo isFormValidated() ? "" : $_POST['cuPwd']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email</label>
+                    </td>
+                    <td>
+                        <input type="text" name="email" value="<?php echo isFormValidated() ? $admin['Email'] : $_POST['email'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="phone">Phone Number</label>
+                    </td>
+                    <td>
+                        <input type="text" name="phone" value="<?php echo isFormValidated() ? $admin['Phone Number'] : $_POST['phone'];  ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td> <input type="submit" value="Submit"></td>
+
+                </tr>
+            </table>
+        </form>
+        <br>
+    
+   
+        
+      
+
+        <br>
+        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isFormValidated()) : ?>
+            <div class="text-danger">
+                <span>Please fix the following error:</span>
+                <ul>
+                    <?php
+                    foreach ($errors as $value) {
+                        echo '<li>', $value, '</li>';
+                    };
+                    ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <br>
+
+        <a href="index_admin.php">Back To Index</a>
+    </div>
+</body>
+
+</html>
+
+<?php
+db_disconnect($db);
+
+?>

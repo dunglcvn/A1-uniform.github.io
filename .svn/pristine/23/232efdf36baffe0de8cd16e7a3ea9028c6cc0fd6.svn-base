@@ -1,0 +1,49 @@
+<?php 
+    require_once('./lib/database_product.php');
+    require_once('./lib/functions.php');
+  
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    delete_product($_POST['id']);
+    redirect_to('index_products.php');
+} else {
+    if (!isset($_GET['id'])) {
+        redirect_to('index_products.php');
+    };
+
+    $id = $_GET['id'];
+    $product = find_product_by_id($id);
+};
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete product</title>
+    <style>
+        .label {
+            font-weight: bold;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Delete product</h1>
+    <p><span>Name: </span><?php echo $product['name']; ?></p>
+    <p><span>Color: </span><?php echo $product["color"]; ?></p>
+    <p><span>Size: </span><?php echo $product['size']; ?></p>
+    <p><span>Price: </span><?php echo $product['price']; ?></p>
+  
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method='POST'>
+        <input type="hidden" name='id' value='<?php echo $product['id']; ?>'>
+
+        <input type="submit" value="Delete Product" id="submit">
+    </form>
+
+    <br><br>
+    <a href="index_products.php">Back to Index</a>
+</body>
+</html>

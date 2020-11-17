@@ -1,0 +1,70 @@
+<?php
+    require_once("database_category.php");
+    require_once("functions_category.php");
+
+  
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-Category</title>
+    <style>
+        .table {
+            
+        border-collapse: collapse;
+        vertical-align: top;
+        border: 1px solid red;
+        }
+        td,th{
+           
+            padding : 5px;
+        }
+
+    </style>
+   
+    
+</head>
+<body>
+
+<a href="create_category.php">Create new</a>
+<br><br>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+
+<table class="table">
+<tr>
+          
+            <th>CatID</th>
+            <th>Type</th>
+            <th>Edit</th>
+            <th>Delete</th>
+</tr>
+<?php
+    $categorys = selectAll();
+    $count = mysqli_num_rows($categorys);
+    for($i = 0 ; $i< $count;$i++):
+    
+        $category = mysqli_fetch_assoc($categorys);
+    
+?>
+<tr>
+                                
+    <td><?php echo $category['CatID'] ?></td>
+    <td><?php echo $category['Type'] ?></td>
+    <td><a href=" <?php echo "edit_category.php?CatID=".$category['CatID'] ?>">Edit</a> </td>
+    <td><a href=" <?php echo "delete_category.php?CatID=".$category['CatID'] ?>">Delete</a> </td>
+</tr>
+<?php 
+        endfor;
+        mysqli_free_result($categorys);
+        ?>
+</table>
+<br>   
+
+</form>
+
+ 
+ 
+</body>
+</html>

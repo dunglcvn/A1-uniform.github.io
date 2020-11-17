@@ -1,0 +1,126 @@
+<?php
+    define("db_server","localhost");
+    define("db_user","root");
+    define("db_pass","");
+    define("db_name","eproject1");
+
+function db_connect(){
+    $connection = mysqli_connect(db_server,db_user,db_pass,db_name);
+    return $connection;
+}
+$db = db_connect();
+
+function db_disconnect($connection){
+    if(isset($connection)){
+        mysqli_close($connection);
+        exit;
+    }
+}
+
+function checkResult($result){
+    global $db;
+    if($result){
+        return $result;
+    }else{
+        echo mysqli_error($db);
+        exit;
+
+    }
+}
+
+function check_member( $username, $password) {
+    global $db;
+    
+    $sql_select="SELECT * FROM member where username = '$username' AND password = '$password'  LIMIT 1";
+    $result = mysqli_query($db, $sql_select);
+    if (mysqli_fetch_array($result)){
+         return true;
+    }else{
+        return false; //Khong co dong nao co thong tin username va password nhu tren
+    }
+}
+function check_username($username){
+    global $db;
+    $sql_select="SELECT * FROM member where username = '$username' limit 1";
+        $result = mysqli_query($db, $sql_select);
+		
+        if (mysqli_fetch_array($result)){
+            return true; //username da ton tai
+        }else{
+            return false; 
+        }  
+}
+
+function check_email($email){
+    global $db;
+
+    $sql = "SELECT * FROM `member` WHERE `email` = '$email' LIMIT 1";
+    $result = mysqli_query($db, $sql);
+
+    if (mysqli_fetch_array($result)) {
+        return true; // email da ton tai
+    } else {
+        return false;
+    }
+}
+function insert_member($member){
+    global $db;
+    
+    $sql = 'INSERT INTO `member`';
+    $sql .= '(username,password,name,phone,email,address) ';
+    $sql .= 'VALUES (';
+    $sql .= "'" . $member['username'] . "',";
+    $sql .= "'" . $member['password'] . "',";
+    $sql .= "'" . $member['name'] . "',";
+    $sql .= "'" . $member['phone'] . "',";
+    $sql .= "'" . $member['email'] . "',";
+    $sql .= "'" . $member['address'] . "'";
+    $sql .= ')';
+
+    
+    $result = mysqli_query($db, $sql);
+    
+    return checkResult($result);
+
+
+       
+}
+function select_all_catalog(){
+    global $db;
+    
+    $sql = "SELECT * FROM `Category`";
+    $result = mysqli_query($db,$sql);
+    return $result;
+}
+
+function select_all_product(){
+    global $db;
+    $data = [];
+    $sql = "SELECT * FROM `product`";
+    $result = mysqli_query($db,$sql);
+    return $result;
+        
+        
+            
+}
+
+
+
+function select_product_by_catalog_id($id){
+    global $db;
+    $data = [];
+    $sql = "SELECT * FROM `product`";
+    $sql .= "WHERE id ='" . $id . "'";
+    
+    $result = mysqli_query($db,$sql);
+    checkResult($result);
+    if($result){
+        while ($num = mysqli_fetch_assoc($result)){
+                $data[] = $num;
+                }
+                
+        }
+        return $data;
+            
+
+}

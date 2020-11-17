@@ -1,0 +1,14 @@
+CREATE DATABASE eproject1;
+
+USE eproject1;
+
+CREATE TABLE `customer`(
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+	username VARCHAR(50) NOT NULL,
+	`password` VARCHAR(50) NOT NULL,
+	`name` VARCHAR(50) NOT NULL,
+	phone VARCHAR(30) NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	address VARCHAR(60) NOT null
+
+);

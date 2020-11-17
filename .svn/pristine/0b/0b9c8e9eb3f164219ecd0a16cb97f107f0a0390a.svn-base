@@ -1,0 +1,48 @@
+<?php 
+   require_once("database_category.php");
+   require_once("functions_category.php");
+  
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    delete_category($_POST['CatID']);
+    redirect_to('index_category.php');
+} else {
+    if (!isset($_GET['CatID'])) {
+        redirect_to('index_category.php');
+    };
+
+    $id = $_GET['CatID'];
+    $category = find_category_by_id($id);
+};
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete category</title>
+    <style>
+        .label {
+            font-weight: bold;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Delete category</h1>
+    <p><span>Id: </span><?php echo $category['CatID']; ?></p>
+    <p><span>Type: </span><?php echo $category["type"]; ?></p>
+  
+  
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method='POST'>
+        <input type="hidden" name='CatID' value='<?php echo $category['CatID']; ?>'>
+
+        <input type="submit" value="Delete" id="submit">
+    </form>
+
+    <br><br>
+    <a href="index_category.php">Back to Index</a>
+</body>
+</html>

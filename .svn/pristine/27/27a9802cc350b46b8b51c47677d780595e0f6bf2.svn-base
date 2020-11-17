@@ -1,0 +1,106 @@
+$("document").ready(function() {
+
+$("#pwd").popover({ // lay datacontent cho popover tu div trong html
+    html: true,
+    content: function() {
+        return $("#popover-body").html();
+    }
+})
+
+$("#pwd").popover();
+
+$(".popover-pwd-strength").css("height","5px");
+
+$("#pwd").keyup(function() {
+    checkStrengPwd($("#pwd").val());
+    
+    var capslock = event.getModifierState("CapsLock"); // capslock Detect
+    if (capslock) {
+        $("#pwd").tooltip();
+        $(".caps-lock-warning1").css("display","block");
+    } else {
+        $(".caps-lock-warning1").css("display","none");
+    }
+})
+
+function checkStrengPwd(password) {
+    var passed = 0;
+
+    if (password.length > 5) {
+        passed++;
+    }
+
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+        passed++;
+    }
+
+    if (password.match(/([a-zA-Z])/) || password.match(/([0-9])/)) {
+        passed++;
+    }
+
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+        passed++;
+    }
+
+    if (password.length === 0) {
+        $("#pwd").attr("data-original-title","Password Strength :");
+        $(".popover-pwd-strength").css("background-color","white");
+    }
+
+    if (passed < 2 && passed != 0 || passed == 1) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Weak");
+        $(".popover-pwd-strength").css("background-color","red");
+        $(".popover-pwd-strength").css("width","33%");
+    }
+
+    if (passed == 3) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Medium");
+        $(".popover-pwd-strength").css("background-color","orange");
+        $(".popover-pwd-strength").css("width","66%");
+    }
+
+    if (passed > 3) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Strong");
+        $(".popover-pwd-strength").css("background-color","green");
+        $(".popover-pwd-strength").css("width","100%");
+    }
+
+    $("#pwd").popover("show");
+}
+
+$("#pwd-confirm").keyup(function() {
+
+    var capslock = event.getModifierState("CapsLock"); // capslock Detect
+    if (capslock) {
+        
+        $(".caps-lock-warning2").css("display","block");
+    } else {
+        $(".caps-lock-warning2").css("display","none");
+    }
+})
+
+$("#pwd-confirm").focusout(function() { // check confirm-pwd
+
+    var pwd = $("#pwd").val();
+    var rePwd = $("#pwd-confirm").val();
+
+    if (pwd === rePwd) {
+        $(".check-confirm-pwd").css("display","none");
+    } else {
+        $(".check-confirm-pwd").css("display","contents");
+    }
+})
+
+$(".fname").focusout(function() {
+    
+    var fname = $(".fname").val();
+
+    if (fname.length == 0) {
+
+    }
+})
+
+})

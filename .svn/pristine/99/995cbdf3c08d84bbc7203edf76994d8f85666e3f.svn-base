@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href="./style/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+</head>
+
+<body>
+    <?php require_once __DIR__ . "/layouts/header.php"; ?>
+    <section class="box-main1">
+        <h3 class="col-md-8 title-main"><a href=""> FAQs </a> </h3>
+
+        <div class="showitem clearfix">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="faqSpan" >
+                        <h2 >
+                            <b style="color: red"> Content </b>
+                        </h2>
+                        <ul>
+                            <li >
+                                <p style="color: red; margin-bottom: 13px">Frequently asked Question </p>
+                            </li>
+                            </a>
+                            <ul>
+                                <li> 1. What items do we have? </li>
+                                <li> 2. What kind of products do you have?</li>
+                                <li> 3. How to buy products on our website? </li>
+                                <li> 4. How about the delivery time?</li>
+                                <li> 5. What payment methods do we have? </li>
+                                <li> 6. How to buy items with the best price?</li>
+                                <li><a href="#">7. Your feedback about our sales website</a></li>
+                            </ul>
+                            
+                    </div>
+
+
+
+                    <h2 class="faqSpan">
+                        <b style="color: red">Answer customer questions</b>
+                    </h2>
+                    <div class="faqSpan">
+                        <h3><span>1. What items do we have?</span></h3>
+                        <p>Currently our website is selling some genuine items of ... </p>
+
+                        <h3><span>2. What kind of products do you have?</span></h3>
+                        <p>Our website specializes in providing Kitchen products such as , ... In the future we will add many different types of products</p>
+
+                        <h3><span>3. How to buy products on our website?</span></h3>
+                        <p>You can access the HOME interface and consult some products suitable for you and select the cart box </br>
+                            Or you can click directly on the product to see more details of the product and select "add cart" <img src="" alt=""> <br />
+                            If you want to buy more products, you can click on "Continue shopping" or If you are satisfied with the shopping cart please click on "Payment" and go to the payment processing section <img src="" alt=""> </br>
+                            In the payment processing section, you will see your information when registering an account. In the Content section you can add delivery method or Delivery Request </br>
+                            Wishing you a happy shopping !!!
+                        </p>
+                        <h3><span>4. How about the delivery time?</span></h3>
+                        <p>Immediately after receiving the order, we will contact you as soon as possible to confirm the order, after confirming we will ship to you as soon as possible.</p>
+
+                        <h3><span>5. What payment methods do we have? </span></h3>
+                        <p>We currently pay directly when the product reaches you,
+                            Next time we will apply more payment methods via Bank Card and other supporting applications !!</p>
+
+                        <h3><span>6. How to buy items with the best price?</span></h3>
+                        <p>Our website always applies the price for products according to the market share.
+                            In addition On big holidays, We have a lot of incentives for customers. For orders with large quantity and high price, the discount will be applied quite appropriately and completely free delivery throughout the country. </p>
+                    </div>
+
+
+                    <center>
+                        <p style="color: red; margin-top: 15px">Thank You for Visiting Our Website</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    </div>
+
+    <?php require_once __DIR__ . "/layouts/footer.php"; ?>
+</body>
+
+</html>

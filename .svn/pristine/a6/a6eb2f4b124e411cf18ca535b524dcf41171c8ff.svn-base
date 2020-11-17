@@ -1,0 +1,82 @@
+.container {
+    background-color: white;
+    font-size: 100%;
+}
+
+body {
+    background-color: #f1f5f7;
+}
+
+.txt {
+    font-size: .5cm;
+}
+
+.buy {
+    background-color: black;
+    color: white;
+    width: 45%;
+    height: 10%;
+    font-size: 125%;
+    cursor: pointer;
+}
+
+.pro-des {
+    font-size: 120%;
+}
+
+#note {
+    font-weight: bold;
+}
+
+.navv {
+    color: rgb(110, 110, 110);
+    text-decoration: none;
+}
+
+.navv:hover {
+    color: black;
+}
+
+#luv {
+    width: 8%;
+    height: 10%;
+    font-size: 150%;
+}
+
+.buy:hover {
+    color: rgb(209, 208, 208);
+}
+
+.btnQuantity {
+    padding: 1px 6px;
+    border: none;
+    cursor: pointer;
+}
+
+#quantity {
+    width: 1cm;
+    text-align: center;
+}
+
+#price, #note {
+    color: red;
+}
+
+.btnIndex {
+    margin: 0 auto;
+    color: rgb(110, 110, 110);
+}
+
+.btnIndex:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.img {
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#username {
+    display: none;
+}

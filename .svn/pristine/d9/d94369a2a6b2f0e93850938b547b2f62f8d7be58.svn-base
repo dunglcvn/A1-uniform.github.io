@@ -1,0 +1,112 @@
+.navbar{
+    background-color: rgba(153,51,0, 0.9) !important;
+
+}
+.navbar li a{
+    color: white !important;
+}
+.navbar li a:hover{
+    color: black !important;
+}
+.carousel-inner img{
+    width: 70%;
+    margin-left:auto; 
+    margin-right:auto; 
+    display:block; 
+}
+.carousel-caption{
+    color: rgb(255, 51, 0);
+    /* background-color: rgba(153, 204, 255, 0.7); */
+    text-shadow: 5px 5px 20px #000 ;
+    display: inline;
+   
+}
+/*Media Query*/
+@media (max-width: 992px){
+	.carousel-caption {
+		bottom: 15%;
+	}
+	.carousel-caption h1{
+		font-size: 200%;
+	}
+	
+}
+@media (max-width: 768px){	
+	.carousel-caption {
+		bottom: 10%;
+	}
+	.carousel-caption h1{
+		font-size: 170%;
+	}
+	
+}
+@media (max-width: 576px){
+	.carousel-caption {
+		bottom: 5%;
+	}
+	.carousel-caption h1{
+		font-size: 130%;
+	}
+	
+}
+.bg_login{
+	background-image: url(../images/bg_login.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.cancelbtn {
+	width: auto;
+	padding: 10px 18px;
+	background-color: #f44336;
+  }
+  
+  /* Center the image and position the close button */
+  .imgcontainer {
+	text-align: center;
+	margin: 24px 0 12px 0;
+	position: relative;
+  }
+ 
+    table {
+        border-collapse: collapse;
+      }
+      
+      table, th, td {
+        
+        padding : 10px;
+      }
+
+      .btnLogin{
+          padding: 5px;
+          width: 90px;
+          background-color: rgb(230, 77, 0);
+      }
+      .btnLogin:hover{
+        background-color: rgb(179, 60, 0)
+      }
+.errors{
+  color: red;
+  text-align: center;
+  font-weight: 500;
+ 
+  
+}
+.success{
+  color: green;
+  text-align: left;
+  font: 500;
+}
+.table{
+  border: 1px solid #fff;
+	border-radius: 20px;
+	margin-top: 20vh; /* vh= Viewport's height */
+	padding: 30px;
+	-webkit-box-shadow: 0px 1px 22px 5px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 1px 22px 5px rgba(0,0,0,0.75);
+	box-shadow: 0px 1px 22px 5px rgba(0,0,0,0.75);
+}
+
+      
+  
+  
+  

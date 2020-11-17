@@ -1,0 +1,66 @@
+$("document").ready(function() {
+
+$("#pwd").popover({
+    html: true,
+    content: function() {
+        return $("#popover-body").html();
+    }
+})
+
+$("#pwd").popover();
+
+$(".popover-pwd-strength").css("height","5px");
+
+$("#pwd").keyup(function() {
+    checkStrengPwd($("#pwd").val());
+})
+
+function checkStrengPwd(password) {
+    var passed = 0;
+
+    if (password.length > 5) {
+        passed++;
+    }
+
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+        passed++;
+    }
+
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+        passed++;
+    }
+
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+        passed++;
+    }
+
+    if (password.length === 0) {
+        $("#pwd").attr("data-original-title","Password Strength :");
+        $(".popover-pwd-strength").css("background-color","white");
+    }
+
+    if (passed < 2 && passed != 0 || password.length === 1) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Weak");
+        $(".popover-pwd-strength").css("background-color","red");
+        $(".popover-pwd-strength").css("width","33%");
+    }
+
+    if (passed == 3) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Medium");
+        $(".popover-pwd-strength").css("background-color","orange");
+        $(".popover-pwd-strength").css("width","66%");
+    }
+
+    if (passed > 3) {
+        $(".popover-pwd-strength").removeClass("hidden");
+        $("#pwd").attr("data-original-title","Password Strength : Strong");
+        $(".popover-pwd-strength").css("background-color","green");
+        $(".popover-pwd-strength").css("width","100%");
+    }
+
+    $("#pwd").popover("show");
+}
+
+})

@@ -1,0 +1,70 @@
+<?php 
+ require_once("database_category.php");
+ require_once("functions_category.php");
+
+
+$errors = [];
+function isFromValidated(){
+    global $errors;
+    return count($errors) == 0;
+}
+function checkform(){
+    global $errors;
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+        if(empty($_POST['type'])){
+            $errors[] = "Type is required";
+        }
+        
+        elseif(!is_string($_POST['type'])){
+            $errors[] = "Type  is not number in";
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create-Category</title>
+</head>
+<body>
+
+      <?php checkform(); ?>
+
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <h2>Create New</h2>
+    <table>
+       
+        <tr>
+            <td>Type</td>
+            <td><input type ="text" name="type" value="<?php echo empty($_POST['type'])? "" : $_POST['type'] ?>" /></td>
+        </tr>
+       
+        <tr>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+    <?php if($_SERVER['REQUEST_METHOD']=="POST"&& !isFromValidated()) : ?>
+            <p>Please fix errors </p>
+            <?php   foreach($errors as $value){
+                    if(!empty($value)){
+                        echo "<li>",$value,"</li>";
+                    }
+            } 
+            ?>
+<?php endif; ?>
+<?php 
+   
+    if($_SERVER['REQUEST_METHOD']=="POST" && isFromValidated()){
+        $category = [];
+        $category['Type'] = $_POST["type"];
+       
+        $result = insert_into($category);
+        echo "Done";
+    }  
+?>
+    </form>
+<a href="index_category.php">Go to index</a>
+</body>
+</html>
